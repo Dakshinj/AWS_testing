@@ -3,7 +3,9 @@ from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.image import imread
+import time
 
+start_time = time.time()
 # Preparing Train data
 # CNN for car = 0, person = 1, dog = 2, airplane = 3 - 600 examples each for training
 # cat = 4, flower = 5, motorbike = 6, fruit = 7
@@ -409,8 +411,8 @@ seed = 3
 (m, n_H0, n_W0, n_C0) = train_x.shape             
 n_y = train_y.shape[1]                            
 costs = []
-num_epochs = 20
-minibatch_size = 512
+num_epochs = 50
+minibatch_size = 256
 print_cost = True
 
 # Initialize all the variables globally
@@ -453,6 +455,9 @@ with tf.Session() as sess:
     saver.save(sess, 'natural_image_model') 
     predict_op = tf.argmax(Z5,1)
     correct_prediction = tf.equal(predict_op, tf.argmax(tf_y,1))
+    end_time = time.time()
+    print("Total time taken:")
+    print(end_time-start_time)
     
     # Calculate accuracy on the test set
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
